@@ -1,0 +1,59 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:390px;height:844px}
+body{font-family:'Carlito','Liberation Sans',sans-serif;color:#1F2937;background:#fff;font-size:15px;line-height:1.25;display:flex;flex-direction:column;overflow:hidden}
+.sb{height:44px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-weight:700;font-size:15px}
+.sb i{display:inline-block;width:18px;height:10px;border:1.5px solid #1F2937;border-radius:3px;margin-left:6px;position:relative}
+.sb i:after{content:'';position:absolute;inset:1.5px;right:5px;background:#1F2937;border-radius:1px}
+.bar{height:54px;flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1.5px solid #D1D5DB}
+.bar h1{font-size:21px;font-weight:700;flex:1}
+.bar small{display:block;font-size:13px;font-weight:400;color:#6B7280}
+.pg{flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:12px;overflow:hidden;position:relative}
+.nav{height:74px;flex:none;border-top:1.5px solid #D1D5DB;display:flex;justify-content:space-around;align-items:flex-start;padding-top:8px;background:#fff}
+.nav div{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;color:#6B7280;width:64px}
+.nav .on{color:#0F766E;font-weight:700}
+.nav .sell span{background:#0F766E;border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;margin-top:-18px;border:4px solid #fff}
+.nav .sell{color:#0F766E;font-weight:700}
+svg.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card{border:1.5px solid #D1D5DB;border-radius:12px;padding:12px}
+.row{display:flex;align-items:center;gap:10px}
+.col{display:flex;flex-direction:column}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grow{flex:1;min-width:0}
+.mut{color:#6B7280} .sm{font-size:13px} .b{font-weight:700} .lg{font-size:22px;font-weight:700} .r{text-align:right}
+.h2{font-size:16px;font-weight:700}
+.chips{display:flex;gap:8px;flex:none;overflow:hidden}
+.chip{border:1.5px solid #D1D5DB;border-radius:20px;padding:6px 13px;font-size:14px;white-space:nowrap;color:#1F2937}
+.chip.on{background:#0F766E;border-color:#0F766E;color:#fff;font-weight:700}
+.tag{font-size:12px;border-radius:6px;padding:2px 8px;background:#F3F4F6;color:#6B7280;font-weight:700;white-space:nowrap}
+.tag.ok{background:#E3F3F0;color:#0F766E} .tag.warn{background:#FEF3C7;color:#B45309}
+.btn{height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;border:1.5px solid #0F766E;color:#0F766E;flex:none}
+.btn.p{background:#0F766E;color:#fff} .btn.d{border-color:#B91C1C;color:#B91C1C} .btn.s{height:40px;font-size:14px;border-radius:10px}
+.in{height:44px;border:1.5px solid #D1D5DB;border-radius:10px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;color:#1F2937;flex:none}
+.in.ph{color:#6B7280} .in.ta{height:76px;align-items:flex-start;padding-top:11px}
+.lb{font-size:13px;color:#6B7280;margin-bottom:4px;font-weight:700}
+.img{background:#F3F4F6;border:1.5px solid #D1D5DB;border-radius:10px;position:relative;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:12px;
+background-image:linear-gradient(to top right,transparent calc(50% - 1px),#D1D5DB,transparent calc(50% + 1px)),linear-gradient(to top left,transparent calc(50% - 1px),#D1D5DB,transparent calc(50% + 1px))}
+.av{width:42px;height:42px;border-radius:50%;background:#E3F3F0;color:#0F766E;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E5E7EB}
+.li:last-child{border-bottom:none}
+.fab{position:absolute;right:16px;bottom:14px;height:50px;border-radius:25px;background:#0F766E;color:#fff;font-weight:700;display:flex;align-items:center;gap:8px;padding:0 18px;font-size:15px}
+.sw{width:44px;height:26px;border-radius:13px;background:#D1D5DB;position:relative;flex:none}
+.sw:after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff}
+.sw.on{background:#0F766E} .sw.on:after{left:21px}
+.pb{height:10px;border-radius:5px;background:#F3F4F6;border:1px solid #D1D5DB;overflow:hidden} .pb i{display:block;height:100%;background:#0F766E}
+.step{display:flex;align-items:center;border:1.5px solid #D1D5DB;border-radius:10px;height:34px;flex:none}
+.step b{width:32px;text-align:center;font-size:18px} .step span{width:30px;text-align:center;font-weight:700;border-left:1px solid #D1D5DB;border-right:1px solid #D1D5DB;line-height:32px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:96px;padding-top:6px}
+.bars div{flex:1;background:#E3F3F0;border:1.5px solid #0F766E;border-radius:5px 5px 0 0;position:relative}
+.bars div.hi{background:#0F766E}
+.lab{display:flex;gap:8px;font-size:12px;color:#6B7280;margin-top:4px} .lab span{flex:1;text-align:center}
+</style></head><body><div class="sb"><span>9:41</span><span>5G<i></i></span></div><div class="bar"><svg class="i" width="24" height="24" viewBox="0 0 24 24" style="color:currentColor"><path d="M15 5l-7 7 7 7"/></svg><h1>Nova venda</h1><svg class="i" width="22" height="22" viewBox="0 0 24 24" style="color:currentColor"><circle cx="9" cy="20" r="1.500"/><circle cx="18" cy="20" r="1.500"/><path d="M3 4h2.500l2.200 11h10.500L20 8H7"/></svg></div><div class="pg">
+<div class="row card" style="padding:9px 12px"><div class="av" style="width:36px;height:36px">M</div><div class="grow"><div class="sm mut">Cliente (opcional)</div><b>Mariana Souza Oliveira</b></div><span class="sm b" style="color:#0F766E">Trocar</span></div>
+<div class="in ph"><span>Buscar produto para adicionar</span><svg class="i" width="20" height="20" viewBox="0 0 24 24" style="color:currentColor"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></div>
+<div class="card" style="padding:4px 12px"><div class="li" style="padding:7px 0"><div class="img" style="width:40px;height:40px;flex:none;border-radius:8px;background-image:none"></div><div class="grow"><div class="b">Brownie com nozes</div><div class="sm mut">R$ 9,00</div></div><div class="step"><b>−</b><span>1</span><b>+</b></div></div><div class="li" style="padding:7px 0"><div class="img" style="width:40px;height:40px;flex:none;border-radius:8px;background-image:none"></div><div class="grow"><div class="b">Café coado</div><div class="sm mut">R$ 5,00</div></div><div class="step"><b>−</b><span>2</span><b>+</b></div></div><div class="li" style="padding:7px 0"><div class="img" style="width:40px;height:40px;flex:none;border-radius:8px;background-image:none"></div><div class="grow"><div class="b">Coxinha de frango</div><div class="sm mut">R$ 7,00</div></div><div class="step"><b>−</b><span>1</span><b>+</b></div></div></div>
+<div><div class="lb">Canal de venda</div><div class="chips"><div class="chip on">Balcão</div><div class="chip">WhatsApp</div><div class="chip">Instagram</div><div class="chip">Delivery</div></div></div>
+<div><div class="lb">Forma de pagamento</div><div class="chips"><div class="chip on">Pix</div><div class="chip">Débito</div><div class="chip">Crédito</div><div class="chip">Dinheiro</div></div></div>
+<div class="card"><div class="row sm"><span class="grow mut">Subtotal</span>R$ 26,00</div><div class="row sm" style="margin-top:4px"><span class="grow mut">Desconto</span>− R$ 0,00</div>
+<div class="row" style="margin-top:8px;border-top:1px solid #D1D5DB;padding-top:8px"><b class="grow" style="font-size:17px">Total</b><b class="lg">R$ 26,00</b></div></div>
+<div style="flex:1"></div><div class="btn p">Finalizar venda</div></div></body></html>

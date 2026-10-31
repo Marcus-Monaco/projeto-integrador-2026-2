@@ -1,0 +1,61 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:390px;height:844px}
+body{font-family:'Carlito','Liberation Sans',sans-serif;color:#1F2937;background:#fff;font-size:15px;line-height:1.25;display:flex;flex-direction:column;overflow:hidden}
+.sb{height:44px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-weight:700;font-size:15px}
+.sb i{display:inline-block;width:18px;height:10px;border:1.5px solid #1F2937;border-radius:3px;margin-left:6px;position:relative}
+.sb i:after{content:'';position:absolute;inset:1.5px;right:5px;background:#1F2937;border-radius:1px}
+.bar{height:54px;flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1.5px solid #D1D5DB}
+.bar h1{font-size:21px;font-weight:700;flex:1}
+.bar small{display:block;font-size:13px;font-weight:400;color:#6B7280}
+.pg{flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:12px;overflow:hidden;position:relative}
+.nav{height:74px;flex:none;border-top:1.5px solid #D1D5DB;display:flex;justify-content:space-around;align-items:flex-start;padding-top:8px;background:#fff}
+.nav div{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;color:#6B7280;width:64px}
+.nav .on{color:#0F766E;font-weight:700}
+.nav .sell span{background:#0F766E;border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;margin-top:-18px;border:4px solid #fff}
+.nav .sell{color:#0F766E;font-weight:700}
+svg.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card{border:1.5px solid #D1D5DB;border-radius:12px;padding:12px}
+.row{display:flex;align-items:center;gap:10px}
+.col{display:flex;flex-direction:column}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grow{flex:1;min-width:0}
+.mut{color:#6B7280} .sm{font-size:13px} .b{font-weight:700} .lg{font-size:22px;font-weight:700} .r{text-align:right}
+.h2{font-size:16px;font-weight:700}
+.chips{display:flex;gap:8px;flex:none;overflow:hidden}
+.chip{border:1.5px solid #D1D5DB;border-radius:20px;padding:6px 13px;font-size:14px;white-space:nowrap;color:#1F2937}
+.chip.on{background:#0F766E;border-color:#0F766E;color:#fff;font-weight:700}
+.tag{font-size:12px;border-radius:6px;padding:2px 8px;background:#F3F4F6;color:#6B7280;font-weight:700;white-space:nowrap}
+.tag.ok{background:#E3F3F0;color:#0F766E} .tag.warn{background:#FEF3C7;color:#B45309}
+.btn{height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;border:1.5px solid #0F766E;color:#0F766E;flex:none}
+.btn.p{background:#0F766E;color:#fff} .btn.d{border-color:#B91C1C;color:#B91C1C} .btn.s{height:40px;font-size:14px;border-radius:10px}
+.in{height:44px;border:1.5px solid #D1D5DB;border-radius:10px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;color:#1F2937;flex:none}
+.in.ph{color:#6B7280} .in.ta{height:76px;align-items:flex-start;padding-top:11px}
+.lb{font-size:13px;color:#6B7280;margin-bottom:4px;font-weight:700}
+.img{background:#F3F4F6;border:1.5px solid #D1D5DB;border-radius:10px;position:relative;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:12px;
+background-image:linear-gradient(to top right,transparent calc(50% - 1px),#D1D5DB,transparent calc(50% + 1px)),linear-gradient(to top left,transparent calc(50% - 1px),#D1D5DB,transparent calc(50% + 1px))}
+.av{width:42px;height:42px;border-radius:50%;background:#E3F3F0;color:#0F766E;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E5E7EB}
+.li:last-child{border-bottom:none}
+.fab{position:absolute;right:16px;bottom:14px;height:50px;border-radius:25px;background:#0F766E;color:#fff;font-weight:700;display:flex;align-items:center;gap:8px;padding:0 18px;font-size:15px}
+.sw{width:44px;height:26px;border-radius:13px;background:#D1D5DB;position:relative;flex:none}
+.sw:after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff}
+.sw.on{background:#0F766E} .sw.on:after{left:21px}
+.pb{height:10px;border-radius:5px;background:#F3F4F6;border:1px solid #D1D5DB;overflow:hidden} .pb i{display:block;height:100%;background:#0F766E}
+.step{display:flex;align-items:center;border:1.5px solid #D1D5DB;border-radius:10px;height:34px;flex:none}
+.step b{width:32px;text-align:center;font-size:18px} .step span{width:30px;text-align:center;font-weight:700;border-left:1px solid #D1D5DB;border-right:1px solid #D1D5DB;line-height:32px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:96px;padding-top:6px}
+.bars div{flex:1;background:#E3F3F0;border:1.5px solid #0F766E;border-radius:5px 5px 0 0;position:relative}
+.bars div.hi{background:#0F766E}
+.lab{display:flex;gap:8px;font-size:12px;color:#6B7280;margin-top:4px} .lab span{flex:1;text-align:center}
+</style></head><body><div class="sb"><span>9:41</span><span>5G<i></i></span></div><div class="bar"><h1>Relatórios</h1><svg class="i" width="22" height="22" viewBox="0 0 24 24" style="color:currentColor"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/></svg></div><div class="pg">
+<div class="chips"><div class="chip">7 dias</div><div class="chip on">30 dias</div><div class="chip">Este mês</div><div class="chip">Personalizado</div></div>
+<div class="row" style="border-bottom:1.5px solid #D1D5DB;gap:0"><div class="grow b" style="text-align:center;padding:9px 0;color:#0F766E;border-bottom:3px solid #0F766E">Vendas</div><div class="grow b" style="text-align:center;padding:9px 0;color:#6B7280">Produtos</div><div class="grow b" style="text-align:center;padding:9px 0;color:#6B7280">Clientes</div><div class="grow b" style="text-align:center;padding:9px 0;color:#6B7280">Canais</div></div>
+<div class="card"><div class="row"><div class="h2 grow">Faturamento por dia</div><span class="sm mut">R$ 2.478,00</span></div>
+<div class="bars"><div style="height:60%"></div><div style="height:35%"></div><div style="height:80%"></div><div class="hi" style="height:100%"></div><div style="height:45%"></div><div style="height:70%"></div><div style="height:55%"></div></div>
+<div class="lab"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span></div></div>
+<div class="card"><div class="h2" style="margin-bottom:10px">Faturamento por canal</div><div class="row" style="gap:18px">
+<div style="width:104px;height:104px;border-radius:50%;flex:none;background:conic-gradient(#0F766E 0 52%,#5BB5AB 52% 83%,#A7D8D2 83% 92%,#D1D5DB 92% 100%);display:flex;align-items:center;justify-content:center"><div style="width:62px;height:62px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center" class="b sm">62 vendas</div></div>
+<div class="col grow sm" style="gap:6px"><div class="row"><i style="width:11px;height:11px;background:#0F766E;border-radius:3px"></i><span class="grow">Balcão</span><b>52%</b></div><div class="row"><i style="width:11px;height:11px;background:#5BB5AB;border-radius:3px"></i><span class="grow">WhatsApp</span><b>31%</b></div><div class="row"><i style="width:11px;height:11px;background:#A7D8D2;border-radius:3px"></i><span class="grow">Delivery</span><b>9%</b></div><div class="row"><i style="width:11px;height:11px;background:#D1D5DB;border-radius:3px"></i><span class="grow">Instagram</span><b>8%</b></div></div></div></div>
+<div class="g2" style="grid-template-columns:1fr 1fr"><div class="card" style="padding:9px"><div class="sm mut">Melhor dia</div><b>Quinta, R$ 412</b></div><div class="card" style="padding:9px"><div class="sm mut">Pagamento mais usado</div><b>Pix, 40%</b></div></div>
+<div style="flex:1"></div><div class="btn p"><svg class="i" width="20" height="20" viewBox="0 0 24 24" style="color:currentColor"><path d="M12 4v11M7 11l5 5 5-5M4 20h16"/></svg>Exportar relatório (CSV)</div></div><div class="nav"><div class=""><svg class="i" width="24" height="24" viewBox="0 0 24 24" style="color:currentColor"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Início</div><div class=""><svg class="i" width="24" height="24" viewBox="0 0 24 24" style="color:currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Catálogo</div><div class="sell"><span><svg class="i" width="24" height="24" viewBox="0 0 24 24" style="color:#fff"><path d="M12 5v14M5 12h14"/></svg></span>Vender</div><div class=""><svg class="i" width="24" height="24" viewBox="0 0 24 24" style="color:currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17.5 14c2.6 0 4 1.8 4 4.5"/></svg>Clientes</div><div class="on"><svg class="i" width="24" height="24" viewBox="0 0 24 24" style="color:currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Mais</div></div></body></html>

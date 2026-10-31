@@ -1,0 +1,29 @@
+# Chaves de assinatura do Android (NUNCA enviar ao GitHub)
+*.jks
+*.keystore
+key.properties
+
+# Flutter / Dart
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# IDEs e sistema
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Bancos de dados gerados durante testes locais
+*.db
+*.db-journal
