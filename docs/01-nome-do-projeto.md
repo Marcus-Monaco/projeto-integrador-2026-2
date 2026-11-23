@@ -19,7 +19,7 @@ O nome é curto, fácil de pronunciar e de lembrar, e comunica a proposta em por
 |---|---|
 | Nome exibido no aparelho | MeuBalcão |
 | Slogan | Vitrine digital e análise de vendas para o seu negócio |
-| Identificador do pacote Android (sugestão) | `com.meubalcao.app` |
+| Identificador do pacote Android | `com.meubalcao.app` |
 | Ícone | Fachada de loja com toldo, em branco sobre fundo verde-azulado (como na tela de abertura dos [wireframes](06-wireframes.md)) |
 | Cor principal | Verde-azulado `#0F766E` (a vitrine do negócio pode ter outra cor, definida pelo usuário) |
 | Plataforma | Android |

@@ -1,0 +1,9 @@
+# Scripts de shell precisam de fim de linha LF para rodar no Git Bash, Linux e macOS
+*.sh    text eol=lf
+gradlew text eol=lf
+# Scripts do Windows usam CRLF
+*.bat   text eol=crlf
+# Binários
+*.apk   binary
+*.jar   binary
+*.png   binary

@@ -1,84 +1,66 @@
-# 8. Como será gerado o arquivo APK
+# 8. Como o arquivo APK é gerado
 
-O aplicativo será desenvolvido em **Flutter**, que compila o código Dart e empacota tudo (código, imagens e o script SQL do banco) em um único arquivo **`.apk`** instalável em aparelhos Android. Este documento descreve o passo a passo planejado. Os comandos seguem a documentação oficial: [docs.flutter.dev/deployment/android](https://docs.flutter.dev/deployment/android).
+O aplicativo é escrito em **Kotlin** com **Jetpack Compose** e compilado pelo **Gradle** (Android Gradle Plugin). O Gradle compila o código, empacota os recursos e os scripts SQL do banco, otimiza tudo com o **R8** e gera um único arquivo **`.apk`**, que pode ser instalado em aparelhos Android 8.0 ou superior.
 
-**Resultado final:** `build/app/outputs/flutter-apk/app-release.apk`
+> **Mudança em relação à Etapa 1:** o planejamento previa Flutter/Dart. Na implementação, o grupo usou **Kotlin nativo** porque o Android Studio, o Android SDK e o emulador já estavam instalados e prontos. O banco de dados, as telas e os requisitos continuam os mesmos.
+
+**APK pronto para instalar:** [`apk/MeuBalcao-1.0.0.apk`](../apk/MeuBalcao-1.0.0.apk) (cerca de 1,4 MB)
 
 ## 8.1 Visão geral do processo
 
 ```mermaid
 flowchart LR
-    A[Código Dart no GitHub] --> B[flutter pub get]
-    B --> C[flutter test]
-    C --> D[flutter build apk --release]
-    D --> E[app-release.apk]
-    E --> F[Instalar no celular]
-    E --> G[Publicar em GitHub Releases]
+    A[Código Kotlin no GitHub] --> B[gradlew testDebugUnitTest]
+    B --> C[gradlew assembleRelease]
+    C --> D[R8: reduz e otimiza]
+    D --> E[app-release.apk assinado]
+    E --> F[Instalar no celular ou emulador]
 ```
 
 | Tipo de arquivo | Para quê | Comando |
 |---|---|---|
-| **APK de teste (debug)** | Testar rapidamente durante o desenvolvimento | `flutter build apk --debug` |
-| **APK de distribuição (release)** | Entrega do trabalho e instalação nos celulares | `flutter build apk --release` |
-| **APK por arquitetura** | Arquivos menores, um para cada tipo de processador | `flutter build apk --split-per-abi` |
-| **App Bundle (AAB)** | Somente se o app for publicado na Google Play | `flutter build appbundle` |
+| **APK de teste (debug)** | Desenvolvimento e depuração | `gradlew assembleDebug` |
+| **APK de distribuição (release)** | Entrega do trabalho, otimizado pelo R8 | `gradlew assembleRelease` |
+| **App Bundle (AAB)** | Somente para publicar na Google Play | `gradlew bundleRelease` |
 
 ## 8.2 Preparar o ambiente
 
-Instalar, em Windows, macOS ou Linux:
-
-1. **Flutter SDK** (canal *stable*), adicionando a pasta `flutter/bin` ao `PATH`.
-2. **Android Studio**, que traz o Android SDK, o emulador e o JDK necessários.
-3. **Git**, para clonar o repositório.
-
-Depois, verificar a instalação e aceitar as licenças do Android:
+1. Instalar o **[Android Studio](https://developer.android.com/studio)**, que traz o Android SDK, o emulador e o JDK 21 (pasta `jbr`).
+2. Instalar o **[Git](https://git-scm.com)** e clonar o repositório:
 
 ```bash
-flutter doctor
-flutter doctor --android-licenses
+git clone https://github.com/Marcus-Monaco/projeto-integrador-2026-2.git
+cd projeto-integrador-2026-2
 ```
 
-O `flutter doctor` deve mostrar o item **Android toolchain** sem pendências.
+3. Abrir a pasta no Android Studio (*File → Open*). Ele cria o arquivo `local.properties` com o caminho do SDK e baixa as dependências automaticamente.
 
-## 8.3 Criar e configurar o projeto
+Não é preciso instalar o Gradle: o repositório traz o **Gradle Wrapper** (`gradlew` / `gradlew.bat`), que baixa a versão correta (8.14.3) na primeira execução.
 
-```bash
-# 1. Criar o projeto somente para Android
-flutter create --org com.meubalcao --project-name meubalcao --platforms=android .
+## 8.3 Configuração do projeto
 
-# 2. Adicionar as bibliotecas (lista completa no item 9)
-flutter pub add sqflite path path_provider provider fl_chart intl image_picker \
-    share_plus url_launcher qr_flutter csv file_picker package_info_plus
-flutter pub add dev:flutter_launcher_icons dev:sqflite_common_ffi
-
-# 3. Baixar as dependências
-flutter pub get
-```
-
-Ajustes de identidade do aplicativo:
-
-| Arquivo | O que configurar |
+| Arquivo | O que define |
 |---|---|
-| `pubspec.yaml` | `version: 1.0.0+1` (versão exibida + número de build, que deve aumentar a cada novo APK) e a pasta `assets/db/` com o script do banco |
-| `android/app/build.gradle` (ou `build.gradle.kts`) | `applicationId "com.meubalcao.app"` (altere somente o `applicationId`) |
-| `android/app/src/main/AndroidManifest.xml` | `android:label="MeuBalcão"` (nome exibido sob o ícone) |
-| Ícone | Colocar a imagem em `assets/icon/icon.png`, configurar `flutter_launcher_icons` no `pubspec.yaml` e executar `dart run flutter_launcher_icons` |
+| [`settings.gradle.kts`](../settings.gradle.kts) | Nome do projeto e repositórios (Google e Maven Central) |
+| [`build.gradle.kts`](../build.gradle.kts) | Versões dos plugins: Android Gradle Plugin 8.12, Kotlin 2.1.20 e o compilador do Compose |
+| [`app/build.gradle.kts`](../app/build.gradle.kts) | `applicationId = "com.meubalcao.app"`, `minSdk = 26` (Android 8.0), `targetSdk = 36`, `versionCode = 1`, `versionName = "1.0.0"`, bibliotecas e assinatura |
+| [`app/src/main/AndroidManifest.xml`](../app/src/main/AndroidManifest.xml) | Nome exibido (`MeuBalcão`), ícone, tela inicial e `FileProvider` para compartilhar arquivos |
+| `app/build.gradle.kts` → `assets.srcDirs("../database")` | Empacota `database/schema.sql` e `database/seed.sql` dentro do APK |
 
-O aplicativo **não precisa da permissão de internet** para o banco de dados local. Se for usado o envio por WhatsApp (`url_launcher`), pode ser necessário declarar a consulta a pacotes externos no `AndroidManifest.xml`, conforme a documentação da biblioteca.
+O aplicativo **não declara a permissão de internet**: o banco é local. O manifesto declara apenas as `<queries>` necessárias para abrir o WhatsApp, o discador e a folha de compartilhamento do Android.
 
-## 8.4 Assinar o APK (chave de assinatura)
+## 8.4 Assinatura do APK
 
-O Android só instala APKs **assinados**. Para o APK de entrega, criamos uma chave própria **uma única vez**:
+O Android só instala APKs **assinados**. O `app/build.gradle.kts` funciona de duas formas:
+
+- **Sem chave própria** (como no APK entregue): o APK de release é assinado com a **chave de depuração** do Android Studio. Ele instala normalmente em qualquer aparelho ou emulador e serve para a avaliação do trabalho.
+- **Com chave própria** (para publicar ou distribuir atualizações): crie a chave uma única vez:
 
 ```bash
-# Linux e macOS
-keytool -genkey -v -keystore ~/meubalcao-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
-
-# Windows (PowerShell)
-keytool -genkey -v -keystore $env:USERPROFILE\meubalcao-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+keytool -genkey -v -keystore meubalcao-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
 ```
 
-Em seguida, criar o arquivo `android/key.properties` (**nunca enviar ao GitHub**):
+Depois crie `key.properties` na raiz do projeto. O arquivo **nunca vai para o GitHub**, porque está no [`.gitignore`](../.gitignore):
 
 ```properties
 storePassword=SENHA_DA_CHAVE
@@ -87,125 +69,77 @@ keyAlias=upload
 storeFile=C:/caminho/para/meubalcao-keystore.jks
 ```
 
-E ligá-lo ao build em `android/app/build.gradle` (versão Groovy; em projetos com `build.gradle.kts` a sintaxe é equivalente, conforme a documentação oficial):
+Quando esse arquivo existe, o Gradle passa a usá-lo automaticamente:
 
-```groovy
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+```kotlin
+// app/build.gradle.kts (trecho)
+val keystoreProperties = Properties().apply {
+    val arquivo = rootProject.file("key.properties")
+    if (arquivo.exists()) arquivo.inputStream().use { load(it) }
 }
-
 android {
     signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+        create("release") {
+            if (keystoreProperties.isNotEmpty()) {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
         }
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            isMinifyEnabled = true      // R8 remove código não usado
+            isShrinkResources = true    // remove recursos não usados
+            signingConfig = if (keystoreProperties.isNotEmpty())
+                signingConfigs.getByName("release") else signingConfigs.getByName("debug")
         }
     }
 }
 ```
 
-> 🔒 **Segurança:** o arquivo `.jks` e o `key.properties` estão no [`.gitignore`](../.gitignore) do repositório. Guarde uma cópia da chave em local seguro: sem ela não é possível lançar atualizações do mesmo aplicativo.
-
 ## 8.5 Gerar o APK
 
-Na raiz do projeto Flutter:
+Na raiz do repositório (Windows: `gradlew.bat`; Linux/macOS: `./gradlew`):
 
 ```bash
-flutter clean
-flutter pub get
-flutter test
-flutter build apk --release
+gradlew testDebugUnitTest   # 18 testes automatizados (banco e regras)
+gradlew assembleRelease     # gera o APK otimizado
 ```
 
-O comando compila, otimiza, assina e gera o arquivo:
+Também é possível usar o menu do Android Studio: *Build → Generate App Bundles or APKs → Generate APKs*.
+
+Resultado:
 
 ```text
-build/app/outputs/flutter-apk/app-release.apk
+app/build/outputs/apk/release/app-release.apk
 ```
 
-Para gerar arquivos menores, um por arquitetura de processador, usar `--split-per-abi`. Serão criados, por exemplo, `app-arm64-v8a-release.apk` (a maioria dos celulares atuais), `app-armeabi-v7a-release.apk` e `app-x86_64-release.apk`.
+A cópia entregue fica em [`apk/MeuBalcao-1.0.0.apk`](../apk/MeuBalcao-1.0.0.apk). Com cerca de 1,4 MB, ela atende ao requisito RNF09 (APK abaixo de 30 MB).
 
 ## 8.6 Instalar e testar o APK
 
 | Forma | Passos |
 |---|---|
-| **Cabo USB** | Ativar a *Depuração USB* no celular e executar `flutter install` ou `adb install build/app/outputs/flutter-apk/app-release.apk` |
-| **Emulador** | Criar um dispositivo no *Device Manager* do Android Studio e executar `flutter run --release` |
-| **Arquivo** | Enviar o `.apk` para o celular (cabo, e-mail, nuvem ou WhatsApp), abri-lo e permitir a instalação de **fontes desconhecidas** quando o Android solicitar |
+| **Emulador** | No Android Studio, abrir *Device Manager*, iniciar um dispositivo e arrastar o `.apk` para a janela do emulador (ou clicar em ▶ *Run* para rodar direto do código) |
+| **Cabo USB** | Ativar a *Depuração USB* no celular e executar `adb install apk/MeuBalcao-1.0.0.apk` |
+| **Arquivo** | Enviar o `.apk` para o celular (cabo, e-mail, nuvem ou WhatsApp), abri-lo e permitir a instalação de **fontes desconhecidas** |
 
-**Roteiro mínimo de teste do APK**, com o aparelho em **modo avião**:
+**Roteiro de teste executado**, com o aparelho em **modo avião**:
 
-1. Abrir o aplicativo e confirmar que a tela de abertura carrega o banco local.
-2. Cadastrar uma categoria e um produto.
-3. Registrar uma venda e conferir a baixa do estoque.
-4. Abrir o painel e os relatórios, e conferir os números.
-5. Fechar o aplicativo, abri-lo novamente e verificar se os dados continuam salvos.
+1. Abrir o aplicativo: a tela de abertura cria o banco local `meubalcao.db`.
+2. Tocar em **Carregar dados de exemplo** no painel.
+3. Registrar uma venda com o botão central **+** e conferir a baixa do estoque no Catálogo.
+4. Abrir o painel e os relatórios e conferir os números.
+5. Fechar o aplicativo, abri-lo de novo e verificar que os dados continuam salvos.
 6. Abrir **Mais → Sobre o app** e conferir os nomes dos integrantes.
 
-## 8.7 Publicar o APK no GitHub
-
-O APK de cada versão será anexado a uma **Release** do repositório, para que professores e colegas possam baixá-lo:
-
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-gh release create v1.0.0 build/app/outputs/flutter-apk/app-release.apk \
-    --title "MeuBalcão 1.0.0" --notes "Primeira versão instalável."
-```
-
-(Também é possível criar a Release pela página do repositório, em *Releases → Draft a new release*, anexando o arquivo.)
-
-## 8.8 Automação com GitHub Actions (opcional)
-
-Quando o código do app estiver no repositório, o APK poderá ser gerado automaticamente na nuvem. O arquivo abaixo seria salvo em `.github/workflows/build-apk.yml`:
-
-```yaml
-name: Gerar APK
-
-on:
-  workflow_dispatch:
-  push:
-    tags: ['v*']
-
-jobs:
-  apk:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-      - run: flutter pub get
-      - run: flutter test
-      - run: flutter build apk --release
-      - uses: actions/upload-artifact@v4
-        with:
-          name: meubalcao-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-```
-
-Sem os segredos da chave de assinatura configurados no GitHub, o APK gerado serve apenas para testes. Para o APK de entrega, usar a máquina local, conforme o item 8.5.
-
-## 8.9 Problemas comuns
+## 8.7 Problemas comuns
 
 | Sintoma | Solução provável |
 |---|---|
-| `flutter doctor` acusa licenças pendentes | Executar `flutter doctor --android-licenses` e aceitar todas |
-| Erro de versão do Java/Gradle | Usar o JDK que acompanha o Android Studio e executar `flutter clean` |
+| `SDK location not found` | Abrir o projeto no Android Studio uma vez (ele cria o `local.properties`) ou criar o arquivo com `sdk.dir=C:\\Users\\<você>\\AppData\\Local\\Android\\Sdk` |
+| Erro de versão do Java | Usar o JDK do Android Studio: `set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr` |
 | O celular não instala o APK | Permitir "instalar apps desconhecidos" e conferir se o Android é 8.0 ou superior |
 | "App não instalado" ao atualizar | O novo APK precisa estar assinado com a **mesma chave** e ter `versionCode` maior |
-| Banco de dados não é criado | Conferir se `assets/db/schema.sql` está declarado em `assets` no `pubspec.yaml` |

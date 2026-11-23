@@ -1,111 +1,94 @@
 # 7. Tela com o nome completo dos integrantes
 
-O aplicativo terá uma tela chamada **"Sobre o app"** (T17), que exibe o **nome completo de todos os integrantes do grupo**, além da versão, do nome do projeto e das principais tecnologias.
+O aplicativo tem uma tela chamada **"Sobre o app"** (T17), que exibe o **nome completo de todos os integrantes do grupo**, além da versão, do nome do projeto e das principais tecnologias.
 
-![Wireframe da tela Sobre o app e integrantes](../assets/wireframes/17-sobre-integrantes.png)
+| Wireframe (Etapa 1) | Tela implementada (Etapa 2) |
+|---|---|
+| ![Wireframe da tela Sobre o app](../assets/wireframes/17-sobre-integrantes.png) | ![Tela Sobre o app no emulador](../assets/screenshots/09-sobre-integrantes.png) |
 
 ## 7.1 Onde a tela fica no aplicativo
 
 - **Caminho:** barra inferior → **Mais** → **Sobre o app** (T15 → T17).
-- Está disponível **sem login e sem internet**, pois não depende do banco de dados: os nomes ficam fixos no código do aplicativo.
+- Funciona **sem login e sem internet**, pois não depende do banco de dados: os nomes ficam fixos no código do aplicativo.
 - O requisito também aparece como **RF28** em [Características](04-caracteristicas.md).
 
 ## 7.2 Conteúdo da tela
 
 | Bloco | Conteúdo |
 |---|---|
-| Identificação | Logo, nome **MeuBalcão** e versão do aplicativo |
+| Identificação | Ícone, nome **MeuBalcão**, versão e número do build (lidos de `BuildConfig`) |
 | Projeto | Projeto Integrador VI-B, curso e instituição |
 | Integrantes do grupo | **Nome completo** de cada integrante e sua função no projeto |
-| Tecnologia | Banco de dados local (SQLite) e framework (Flutter e Dart) |
+| Tecnologia | Kotlin, Jetpack Compose, SQLite local e funcionamento offline |
 
 ## 7.3 Integrantes
-
-> ⚠️ **Preencher antes de entregar.** Os campos abaixo estão entre colchetes e devem ser substituídos pelos **nomes completos, sem abreviações**. Inclua ou remova linhas conforme o tamanho do grupo.
 
 | Nome completo | Função no projeto |
 |---|---|
 | Henrique Bin Estramar                | Gerente de projeto e documentação |
 | Lucas Cechett Hofmann                | Modelagem e banco de dados |
-| Mauricio Andryell Porgeri dos Santos | Desenvolvimento do aplicativo (Flutter) |
+| Mauricio Andryell Porgeri dos Santos | Desenvolvimento do aplicativo (Kotlin) |
 | Marcus Vinicius Sena Pereira         | Design de interface, testes e entrega do APK |
 
-## 7.4 Como será implementada
+## 7.4 Como foi implementada
 
-A lista de integrantes fica em uma constante, de modo que, para atualizar a tela, basta editar um único arquivo.
+A lista de integrantes fica em uma constante. Para atualizar a tela, basta editar um único arquivo: [`ui/screens/ConfigSobreScreens.kt`](../app/src/main/java/com/meubalcao/app/ui/screens/ConfigSobreScreens.kt).
 
-```dart
-// lib/ui/screens/sobre_screen.dart
-import 'package:flutter/material.dart';
+```kotlin
+/** Integrante do grupo: os nomes ficam fixos no código (RF28). */
+data class Integrante(val nome: String, val funcao: String)
 
-class Integrante {
-  final String nome;
-  final String funcao;
-  const Integrante(this.nome, this.funcao);
-}
+val integrantes = listOf(
+    Integrante("Henrique Bin Estramar", "Gerente de projeto e documentação"),
+    Integrante("Lucas Cechett Hofmann", "Modelagem e banco de dados"),
+    Integrante("Mauricio Andryell Porgeri dos Santos", "Desenvolvimento do aplicativo (Kotlin)"),
+    Integrante("Marcus Vinicius Sena Pereira", "Design de interface, testes e entrega do APK"),
+)
 
-const List<Integrante> integrantes = [
-  Integrante('Henrique Bin Estramar', 'Gerente de projeto e documentação'),
-  Integrante('Lucas Cechett Hofmann', 'Modelagem e banco de dados'),
-  Integrante('Mauricio Andryell Porgeri dos Santos', 'Desenvolvimento do aplicativo (Flutter)'),
-  Integrante('Marcus Vinicius Sena Pereira', 'Design de interface, testes e entrega do APK'),
-];
-
-class SobreScreen extends StatelessWidget {
-  const SobreScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final tema = Theme.of(context).textTheme;
-    return Scaffold(
-      appBar: AppBar(title: const Text('Sobre o app')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Text('MeuBalcão', style: tema.headlineMedium),
-          const Text('Versão 1.0.0'),
-          const SizedBox(height: 16),
-          const Text('Projeto Integrador VI-B'),
-          const SizedBox(height: 24),
-          Text('Integrantes do grupo', style: tema.titleMedium),
-          for (final i in integrantes)
-            ListTile(
-              leading: const CircleAvatar(child: Icon(Icons.person)),
-              title: Text(i.nome),
-              subtitle: Text(i.funcao),
-            ),
-        ],
-      ),
-    );
-  }
+/** T17 · Sobre o app e integrantes do grupo (RF28). Não usa o banco de dados. */
+@Composable
+fun SobreScreen(nav: NavController) {
+    Tela("Sobre o app", voltar = { nav.popBackStack() }) { pad ->
+        Column(Modifier.fillMaxSize().padding(pad).verticalScroll(rememberScrollState()).padding(16.dp)) {
+            Text("MeuBalcão", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Text("Versão ${BuildConfig.VERSION_NAME} (build ${BuildConfig.VERSION_CODE})")
+            // ... projeto, curso e instituição
+            Secao("Integrantes do grupo")
+            Cartao {
+                integrantes.forEach { p ->
+                    Row {
+                        Avatar(p.nome, 40.dp)
+                        Column {
+                            Text(p.nome, fontWeight = FontWeight.SemiBold)
+                            Text(p.funcao)
+                        }
+                    }
+                }
+            }
+            // ... tecnologia
+        }
+    }
 }
 ```
 
-A versão exibida será lida automaticamente do `pubspec.yaml` com o pacote `package_info_plus` (ver [item 9](09-tecnologias.md)), de modo que a tela acompanhe cada nova versão gerada do APK.
+A versão exibida vem do `versionName` definido em `app/build.gradle.kts`. Assim, a tela acompanha cada nova versão do APK.
 
-## 7.5 Teste automatizado da tela
+## 7.5 Teste automatizado
 
-Um teste de widget garante que **todos** os integrantes continuam aparecendo:
+Um teste garante que a lista continua com os quatro integrantes e com nomes completos ([`FormatosTest.kt`](../app/src/test/java/com/meubalcao/app/FormatosTest.kt)):
 
-```dart
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:meubalcao/ui/screens/sobre_screen.dart';
-
-void main() {
-  testWidgets('Tela Sobre exibe o nome de todos os integrantes', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: SobreScreen()));
-    for (final i in integrantes) {
-      expect(find.text(i.nome), findsOneWidget);
-    }
-  });
+```kotlin
+@Test
+fun `tela Sobre lista os quatro integrantes com nome completo`() {
+    assertEquals(4, integrantes.size)
+    assertTrue(integrantes.all { it.nome.split(" ").size >= 3 })
 }
 ```
 
 ## 7.6 Critérios de aceite
 
-- [ ] A tela é acessível pelo menu **Mais → Sobre o app**.
-- [ ] Todos os integrantes aparecem com o **nome completo**.
-- [ ] A tela abre normalmente com o aparelho **em modo avião**.
-- [ ] Os nomes na tela são **idênticos** aos listados neste repositório.
-- [ ] Uma captura de tela da tela real será anexada ao relatório da etapa de implementação.
+- [x] A tela é acessível pelo menu **Mais → Sobre o app**.
+- [x] Todos os integrantes aparecem com o **nome completo**.
+- [x] A tela abre normalmente com o aparelho **em modo avião**.
+- [x] Os nomes na tela são **idênticos** aos listados neste repositório.
+- [x] A captura da tela real está anexada acima (`assets/screenshots/09-sobre-integrantes.png`).

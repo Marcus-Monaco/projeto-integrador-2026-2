@@ -3,19 +3,17 @@
 *.keystore
 key.properties
 
-# Flutter / Dart
-.dart_tool/
-.packages
-.flutter-plugins
-.flutter-plugins-dependencies
+# Gradle / Android Studio
+.gradle/
+.kotlin/
 build/
-
-# Android
-android/.gradle/
-android/local.properties
-android/app/debug/
-android/app/profile/
-android/app/release/
+app/build/
+app/release/
+app/debug/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
 
 # IDEs e sistema
 .idea/

@@ -1,61 +1,78 @@
 # 9. Tecnologias, bibliotecas e linguagens
 
-Lista das tecnologias que serão utilizadas na construção do MeuBalcão.
+Estas são as tecnologias **efetivamente usadas** na construção do MeuBalcão (Etapa 2).
+
+> **Mudança em relação à Etapa 1:** o planejamento previa Flutter/Dart com bibliotecas do pub.dev. O aplicativo foi implementado em **Kotlin nativo com Jetpack Compose**. A tabela 9.5 mostra o equivalente de cada biblioteca planejada.
 
 ## 9.1 Linguagens
 
 | Linguagem | Uso no projeto | Link |
 |---|---|---|
-| Dart | Código do aplicativo | [dart.dev](https://dart.dev) |
-| SQL (dialeto SQLite) | Criação do banco e consultas | [sqlite.org/lang.html](https://www.sqlite.org/lang.html) |
+| Kotlin | Todo o código do aplicativo | [kotlinlang.org](https://kotlinlang.org) |
+| SQL (dialeto SQLite) | Criação do banco, dados de exemplo e consultas | [sqlite.org/lang.html](https://www.sqlite.org/lang.html) |
+| Kotlin Script (Gradle KTS) | Configuração do build | [docs.gradle.org/kotlin_dsl](https://docs.gradle.org/current/userguide/kotlin_dsl.html) |
+| XML | Manifesto, ícone e tema do Android | [developer.android.com/guide/topics/manifest](https://developer.android.com/guide/topics/manifest/manifest-intro) |
 | Markdown | Documentação do repositório | [markdownguide.org](https://www.markdownguide.org) |
 
-## 9.2 Framework e banco de dados
+## 9.2 Plataforma, interface e banco de dados
 
 | Tecnologia | Uso no projeto | Link |
 |---|---|---|
-| Flutter | Framework do aplicativo Android | [flutter.dev](https://flutter.dev) |
-| Material Design 3 | Componentes visuais | [m3.material.io](https://m3.material.io) |
-| SQLite | Banco de dados local | [sqlite.org](https://www.sqlite.org) |
+| Android SDK (API 26 a 36) | Plataforma do aplicativo | [developer.android.com](https://developer.android.com) |
+| Jetpack Compose | Construção das telas (interface declarativa) | [developer.android.com/compose](https://developer.android.com/compose) |
+| Material Design 3 | Componentes visuais (botões, cartões, campos, barra inferior) | [m3.material.io](https://m3.material.io) |
+| SQLite (nativo do Android) | Banco de dados local `meubalcao.db` | [sqlite.org](https://www.sqlite.org) |
+| `android.database.sqlite` (`SQLiteOpenHelper`) | Abertura, criação, versão e transações do banco | [developer.android.com/…/SQLiteOpenHelper](https://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper) |
 
-## 9.3 Bibliotecas do aplicativo (pub.dev)
-
-| Biblioteca | Uso no projeto | Link |
-|---|---|---|
-| sqflite | Acesso ao banco SQLite no Android | [pub.dev/packages/sqflite](https://pub.dev/packages/sqflite) |
-| path | Montagem de caminhos de arquivos | [pub.dev/packages/path](https://pub.dev/packages/path) |
-| path_provider | Pastas do aplicativo (backup e imagens) | [pub.dev/packages/path_provider](https://pub.dev/packages/path_provider) |
-| provider | Gerenciamento de estado | [pub.dev/packages/provider](https://pub.dev/packages/provider) |
-| fl_chart | Gráficos do painel e dos relatórios | [pub.dev/packages/fl_chart](https://pub.dev/packages/fl_chart) |
-| intl | Formatação de datas e moeda (pt-BR) | [pub.dev/packages/intl](https://pub.dev/packages/intl) |
-| image_picker | Foto de produtos e logo | [pub.dev/packages/image_picker](https://pub.dev/packages/image_picker) |
-| share_plus | Compartilhar vitrine, backup e relatórios | [pub.dev/packages/share_plus](https://pub.dev/packages/share_plus) |
-| url_launcher | Abrir WhatsApp e ligações | [pub.dev/packages/url_launcher](https://pub.dev/packages/url_launcher) |
-| qr_flutter | Geração do QR Code | [pub.dev/packages/qr_flutter](https://pub.dev/packages/qr_flutter) |
-| csv | Exportação de relatórios | [pub.dev/packages/csv](https://pub.dev/packages/csv) |
-| file_picker | Escolher o arquivo de backup a restaurar | [pub.dev/packages/file_picker](https://pub.dev/packages/file_picker) |
-| package_info_plus | Versão do app na tela "Sobre" | [pub.dev/packages/package_info_plus](https://pub.dev/packages/package_info_plus) |
-
-## 9.4 Bibliotecas de desenvolvimento e testes
+## 9.3 Bibliotecas do aplicativo
 
 | Biblioteca | Uso no projeto | Link |
 |---|---|---|
-| flutter_test | Testes de widgets e de unidade | [api.flutter.dev (flutter_test)](https://api.flutter.dev/flutter/flutter_test/flutter_test-library.html) |
-| sqflite_common_ffi | Testar o banco SQLite no computador | [pub.dev/packages/sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi) |
-| flutter_lints | Padronização do código | [pub.dev/packages/flutter_lints](https://pub.dev/packages/flutter_lints) |
-| flutter_launcher_icons | Ícone do aplicativo | [pub.dev/packages/flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) |
+| `androidx.compose` (BOM 2025.06.01) | Interface, gráficos desenhados com `Canvas` | [developer.android.com/jetpack/compose/bom](https://developer.android.com/develop/ui/compose/bom) |
+| `androidx.compose.material3` | Componentes Material 3 | [developer.android.com/jetpack/androidx/releases/compose-material3](https://developer.android.com/jetpack/androidx/releases/compose-material3) |
+| `androidx.compose.material:material-icons-extended` | Ícones das telas | [developer.android.com/…/material-icons](https://developer.android.com/reference/kotlin/androidx/compose/material/icons/package-summary) |
+| `androidx.navigation:navigation-compose` | Navegação entre as telas e barra inferior | [developer.android.com/guide/navigation](https://developer.android.com/guide/navigation) |
+| `androidx.activity:activity-compose` | Activity principal, seletor de fotos e escolha de arquivos (backup) | [developer.android.com/jetpack/androidx/releases/activity](https://developer.android.com/jetpack/androidx/releases/activity) |
+| `androidx.lifecycle:lifecycle-runtime-compose` | Ciclo de vida das telas | [developer.android.com/jetpack/androidx/releases/lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) |
+| `androidx.core:core-ktx` | `FileProvider` para compartilhar imagens e CSV | [developer.android.com/jetpack/androidx/releases/core](https://developer.android.com/jetpack/androidx/releases/core) |
+| `kotlinx.coroutines` | Consultas ao banco fora da tela principal (`Dispatchers.IO`) | [kotlinlang.org/docs/coroutines-overview](https://kotlinlang.org/docs/coroutines-overview.html) |
+| ZXing `core` 3.5.3 | Geração do QR Code, sem internet | [github.com/zxing/zxing](https://github.com/zxing/zxing) |
 
-## 9.5 Ferramentas
+## 9.4 Bibliotecas de testes
+
+| Biblioteca | Uso no projeto | Link |
+|---|---|---|
+| JUnit 4 | Estrutura dos testes automatizados | [junit.org/junit4](https://junit.org/junit4/) |
+| Robolectric 4.14 | Executa o **SQLite real do Android** no computador, sem celular | [robolectric.org](https://robolectric.org) |
+| AndroidX Test Core | Contexto do aplicativo nos testes | [developer.android.com/training/testing](https://developer.android.com/training/testing) |
+
+## 9.5 Planejado (Etapa 1) × utilizado (Etapa 2)
+
+| Função | Planejado (Flutter) | Utilizado (Kotlin) |
+|---|---|---|
+| Banco SQLite | `sqflite` | `SQLiteOpenHelper` nativo do Android |
+| Estado das telas | `provider` | Estado do Compose + coroutines + observação de mudanças (`StateFlow`) |
+| Gráficos | `fl_chart` | Gráficos desenhados com `Canvas` do Compose |
+| Moeda e datas pt-BR | `intl` | `java.text.NumberFormat` e `java.time` |
+| Fotos de produtos e logo | `image_picker` | Seletor de fotos do Android (`PickVisualMedia`) |
+| Compartilhar | `share_plus` | `Intent.ACTION_SEND` + `FileProvider` |
+| WhatsApp e ligação | `url_launcher` | `Intent.ACTION_VIEW` (`wa.me`) e `Intent.ACTION_DIAL` |
+| QR Code | `qr_flutter` | ZXing |
+| CSV | `csv` | Gerador próprio (`util/Csv.kt`), separador `;` |
+| Escolher backup | `file_picker` | `OpenDocument` / `CreateDocument` do Android |
+| Versão na tela Sobre | `package_info_plus` | `BuildConfig.VERSION_NAME` |
+| Testes do banco | `sqflite_common_ffi` | Robolectric |
+
+## 9.6 Ferramentas
 
 | Ferramenta | Uso no projeto | Link |
 |---|---|---|
-| Android Studio | Android SDK, emulador e build | [developer.android.com/studio](https://developer.android.com/studio) |
-| Android Debug Bridge (adb) | Instalar o APK no celular | [developer.android.com/tools/adb](https://developer.android.com/tools/adb) |
-| Visual Studio Code | Editor de código | [code.visualstudio.com](https://code.visualstudio.com) |
-| Git | Controle de versão | [git-scm.com](https://git-scm.com) |
-| GitHub | Repositório público e Releases | [github.com](https://github.com) |
-| GitHub Actions | Geração automática do APK | [docs.github.com/actions](https://docs.github.com/actions) |
-| DB Browser for SQLite | Conferir o banco durante o desenvolvimento | [sqlitebrowser.org](https://sqlitebrowser.org) |
-| Mermaid | Diagramas nos arquivos Markdown | [mermaid.js.org](https://mermaid.js.org) |
-| Graphviz | Geração da imagem do diagrama ER | [graphviz.org](https://graphviz.org) |
+| Android Studio | Editor, Android SDK, emulador e build | [developer.android.com/studio](https://developer.android.com/studio) |
+| Gradle 8.14 (Wrapper) + Android Gradle Plugin 8.12 | Compilação e geração do APK | [gradle.org](https://gradle.org) |
+| R8 | Redução e otimização do APK de release | [developer.android.com/build/shrink-code](https://developer.android.com/build/shrink-code) |
+| Android Emulator | Testes e gravação do vídeo | [developer.android.com/studio/run/emulator](https://developer.android.com/studio/run/emulator) |
+| Android Debug Bridge (adb) | Instalar o APK e capturar telas | [developer.android.com/tools/adb](https://developer.android.com/tools/adb) |
+| Git e GitHub | Controle de versão e entrega | [github.com](https://github.com) |
+| DB Browser for SQLite | Conferir o banco exportado pelo backup | [sqlitebrowser.org](https://sqlitebrowser.org) |
+| Mermaid e Graphviz | Diagramas da documentação e do modelo ER | [mermaid.js.org](https://mermaid.js.org) |
 | HTML e CSS | Código-fonte dos wireframes | [developer.mozilla.org/docs/Web/HTML](https://developer.mozilla.org/docs/Web/HTML) |
