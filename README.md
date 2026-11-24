@@ -13,7 +13,7 @@ Projeto Integrador VI-B: **Etapa 1 (planejamento e documentação)** e **Etapa 2
 | 📱 **APK do aplicativo** | [`apk/MeuBalcao-1.0.0.apk`](apk/MeuBalcao-1.0.0.apk) (Android 8.0 ou superior, cerca de 1,4 MB) |
 | 💻 **Código-fonte** | [`app/`](app/) (Kotlin + Jetpack Compose), com build pelo Gradle Wrapper na raiz |
 | 🗄️ **Como o banco de dados local é construído** | [docs/10-banco-local.md](docs/10-banco-local.md) |
-| 🎬 **Vídeo demonstrativo (YouTube, não listado)** | [docs/12-video-demonstrativo.md](docs/12-video-demonstrativo.md) |
+| 🎬 **Vídeo demonstrativo (YouTube, não listado)** | <https://www.youtube.com/watch?v=bT8lheNQnls> ([roteiro em docs/12](docs/12-video-demonstrativo.md)) |
 | 📄 **Documentação revisada** | Índice abaixo (capítulos 1 a 12) |
 
 ## Questão norteadora

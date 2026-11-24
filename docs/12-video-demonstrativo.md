@@ -2,7 +2,7 @@
 
 ## 12.1 Link do vídeo
 
-> 🎬 **Vídeo no YouTube (não listado):** [COLE AQUI O LINK DO VÍDEO](https://www.youtube.com/)
+> 🎬 **Vídeo no YouTube (não listado):** <https://www.youtube.com/watch?v=bT8lheNQnls>
 >
 > Duração: até 2 minutos.
 
